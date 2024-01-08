@@ -2,6 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import {useSignup} from './useSignup';
 import { useNavigate } from "react-router-dom";
+import Navbar from "./global-components/navbar";
+import PageHeader from "./global-components/page-header";
+import Footer from "./global-components/footer-v2";
 
 function SignUpPage() {
  
@@ -61,27 +64,26 @@ function SignUpPage() {
   return (
     <div
       className="container-fluid p-0"
-      style={{
-        height: "100vh",
-        background:
-          "linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      style={{background:"whitesmoke"}}
     >
+       <Navbar />
+      <PageHeader headertitle="Sign Up" />
+
       {/* White background div containing both partitions */}
       <div
         className="bg-white"
-        style={{ maxWidth: "800px", padding: "20px", borderRadius: "1em" }}
+        style={{ margin: "auto",marginTop: "5rem" ,maxWidth: "800px", padding: "20px",
+        borderRadius: '8px',
+        boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.5)'}}
+       
       >
-        <div className="row justify-content-center align-items-center">
+        <div className="row justify-content-center align-items-center" >
           {/* Left side with an image */}
           <div className="col-md-6">
             <div className="p-4">
               <img
                 src="https://img.freepik.com/free-vector/forms-concept-illustration_114360-4947.jpg?w=826&t=st=1703261903~exp=1703262503~hmac=79f123506c9bc7721b99c0ace286b2089dc9b418f59deb27eec3f82aafea9c85"
-                alt="Logo"
+                alt="Sign up Logo"
                 className="img-fluid rounded-circle"
               />
             </div>
@@ -92,7 +94,7 @@ function SignUpPage() {
           <div className="col-md-6">
             <div className="p-4">
               <h2 className="text-center mb-4" style={{ fontWeight: "bold" }}>
-                Member Signup
+                Member <br /> Sign-up
               </h2>
               <form onSubmit={handleSubmit(onSubmit)}>
               <label>Name</label>
@@ -143,7 +145,7 @@ function SignUpPage() {
         {errors.confirmPassword && <p style={{ color: 'red' }}>{errors.confirmPassword.message}</p>}
 
               <button type="submit"
-                className="btn btn-success btn-block mb-3"
+                className="btn btn-base w-100"
                 style={{ borderRadius: "3em" }}
               >
                 Create Account
@@ -160,6 +162,7 @@ function SignUpPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

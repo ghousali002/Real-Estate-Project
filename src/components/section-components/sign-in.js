@@ -47,16 +47,37 @@ const SignIn = () => {
         onSettled: () => reset(),
       })
   };
+  const boxStyle = {
+    backgroundColor: '#f0f0f0',
+    borderRadius: '8px',
+    boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.5)',
+  };
 
   return (
-    <div className="signin-page-area pd-top-100">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-xl-6 col-lg-7">
+    <div className="signin-page-area " >
+      <div className="bg-white" style={{ margin: "auto",marginTop: "5rem" ,maxWidth: "800px", padding: "30px",
+        borderRadius: '8px',
+        boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.5)'}} >
+        <div className=" row justify-content-center align-items-center" >
+        <div className="col-md-6">
+            <div className="p-4">
+              <img
+                
+                src={"/assets/img/LoginPic.jpg"}
+                alt="Logo"
+                className="img-fluid rounded-circle"
+              />
+            </div>
+          </div>
+          <div className="col-md-6">  
+          <h2 className="text-center mb-4" style={{ fontWeight: "bold" }}>
+                Member <br/> Sign-in
+              </h2>
             <form className="signin-inner" onSubmit={handleSubmit(onSubmit)}>
               <div className="row">
                 <div className="col-12">
                   <label className="single-input-inner style-bg-border">
+                  
                     <input
                       type="text"
                       placeholder="email"
@@ -64,6 +85,7 @@ const SignIn = () => {
                         required: "This field is required",
                       })}
                       onBlur={(e) => validateEmail(e.target.value)}
+                      style={{ borderRadius: "3em"}}
                     />
                      {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
                   </label>

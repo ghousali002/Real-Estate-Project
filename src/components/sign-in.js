@@ -8,7 +8,7 @@ const SignInPage = () => {
   return (
     <div>
       <Navbar />
-      <PageHeader headertitle="Sign In" />
+      <PageHeader headertitle=" Sign In" />
       <SignIn />
       <Footer />
     </div>
