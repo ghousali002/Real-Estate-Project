@@ -24,6 +24,8 @@ class PropertyGridForSale extends Component {
       });
   }
 
+  
+
   render() {
     return (
       <div className="blog-page-area pt-5 go-top">

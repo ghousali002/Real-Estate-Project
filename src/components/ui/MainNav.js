@@ -60,28 +60,37 @@ export default function MainNav() {
         </li>
 
         <li>
-          <StyledLink to="#">
-            <HiOutlineCalendarDays />
-            <span>
-            Add Listings
-            </span>
-          </StyledLink>
-        </li>
-
-        <li>
-          <StyledLink to="#">
-            <HiOutlineHomeModern />
-            <span>
-           Cabins
-            </span>
-          </StyledLink>
-        </li>
-
-        <li>
-          <StyledLink to="#">
+          <StyledLink to="/user">
             <HiOutlineUser />
             <span>
-            Users
+            Profile
+            </span>
+          </StyledLink>
+        </li>
+
+        <li>
+          <StyledLink to="/addlistings">
+          <HiOutlineHomeModern />
+            <span>
+            Listings For Sale
+            </span>
+          </StyledLink>
+        </li>
+
+        <li>
+          <StyledLink to="/addlistingsrent">
+            <HiOutlineHomeModern />
+            <span>
+          Listing For Rent
+            </span>
+          </StyledLink>
+        </li>
+
+        <li>
+          <StyledLink to="/alllistings">
+            <HiOutlineHomeModern />
+            <span>
+          All Listings
             </span>
           </StyledLink>
         </li>
@@ -90,7 +99,7 @@ export default function MainNav() {
           <StyledLink to="#">
             <HiOutlineCog6Tooth />
             <span>
-            Settings
+           Messages
             </span>
           </StyledLink>
         </li>

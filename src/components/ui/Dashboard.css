@@ -1,0 +1,734 @@
+/* DashboardLink & sidebar page css */
+
+.dashboard-container {
+    display: -webkit-box;
+    background-color: whitesmoke;
+  }
+  
+  .content {
+    width: 82vw;
+    box-sizing: border-box;
+  }
+  
+  .sidebar {
+    background: linear-gradient(to top, #3661a0, #57cbf5);
+    color: #fff;
+    height: auto;
+    width: 200px;
+    transition: all 0.5s;
+  
+  }
+  
+  
+  .top_section {
+    display: flex;
+    padding: 20px 15px;
+    align-items: center;
+  }
+  
+  .link {
+    display: flex;
+    color: #fff;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+    text-decoration: none;
+    margin: 3px 10px;
+  }
+  
+  .link:hover {
+    background: rgb(34, 245, 80);
+    color: #000;
+    transition: all 0.5s;
+    border-radius: 120px;
+  }
+  
+  .activeSidebar {
+    background: rgb(34, 245, 80);
+    border-radius: 120px;
+    color: #000;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+  .icon,
+  .link_text {
+    font-size: 20px;
+    text-decoration: none;
+  }
+  
+  /* Dashboard page css */
+  
+  /* .borderBox {
+    border: 2px solid black;
+  
+  } */
+  
+  .Upcoming-classes-today {
+    height: auto;
+    margin: 10px;
+    border-radius: 30px;
+    padding: 1rem;
+    background: linear-gradient(to top, #3661a0, #57cbf5);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  .classComing:hover{
+    cursor: pointer;
+    box-shadow: 0 10px 15px rgba(99, 99, 99, 0.1), 0 4px 6
+      rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+     background-color: rgb(34, 245, 80);
+     border-radius: 50px;
+  }
+  .classComing{
+    padding: 2px;
+  }
+  .overview {
+    height: auto;
+    margin: 10px;
+    border-radius: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .Earnings {
+    height: auto;
+    margin: 10px;
+    border-radius: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+  
+  }
+  
+  
+  .Messages {
+    height: auto;
+    margin: 10px;
+    border-radius: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .MessageBox:hover{
+    cursor: pointer;
+    background: rgb(240, 240, 240);
+    border-radius: 20px;
+  }
+  
+  .show-all-msg-button {
+    background-color: transparent; 
+    color: rgb(34, 245, 80); 
+    border: none; 
+    font-size: small;
+    font-weight: 700;
+  }
+  .show-all-class-button {
+    background-color: transparent; 
+    color: white; 
+    border: none; 
+    font-size: small;
+    font-weight: 500;
+  }
+  
+  .Graph {
+    height: 44vh;
+    margin: 10px;
+    border-radius: 30px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .graph-msg-row {
+    width: 82vw;
+    height: auto;
+    margin-left: 20px;
+    padding: 1rem;
+  }
+  
+  .earn-btn {
+    background-color: rgb(34, 245, 80);
+    padding: 5px 8px;
+    width: 50%;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .level-btn {
+    background-color: rgb(34, 245, 80);
+    padding: 5px 8px;
+    width: 32%;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+  }
+  .logout:hover{
+    color: red !important;
+    cursor: pointer;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    z-index: 1000;
+    top:0; 
+    background-color: white;
+    width: 67rem;
+    height: 7rem;
+  }
+  
+  /* profile page css */
+  .Profile-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1.3fr 0.3fr 1.2fr;
+    gap: 20px 20px;
+    grid-auto-flow: row;
+    height: auto;
+    padding: 20px;
+    margin-right: -10px;
+    grid-template-areas:
+      "Profile About About"
+      "Profile Resume Resume"
+      "Profile Resume Resume"
+      "Portfolio-video Resume Resume"
+      "Feedback Feedback Feedback";
+  
+  
+  }
+  
+  .Profile {
+    grid-area: Profile;
+    height: 70vh;
+    border-radius: 30px;
+    background-color: white;
+  
+  
+    padding: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 20px;
+  
+  
+  }
+  .Profile-Top{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .Profile-Bottom{
+    width: 90%;
+    margin-left: 2rem;
+    font-size: 18px;
+  
+  
+  }
+  .Portfolio-video {
+    grid-area: Portfolio-video;
+    border-radius: 30px;
+    background-color: white;
+    overflow: hidden;
+    height: 41vh;
+    margin-top: -23px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .video-thumbnail {
+    position: relative;
+  }
+  
+  .play-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .Portfolio-video:hover {
+    cursor: pointer;
+  }
+  
+  .About {
+    grid-area: About;
+    border-radius: 30px 0 0 10px;
+    background-color: white;
+    padding: 10px;
+    overflow: auto;
+    height: 30vh;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  
+  }
+  
+  .About::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .About::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+  .About::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  .Resume {
+    grid-area: Resume;
+    border-radius: 30px;
+    background-color: white;
+  
+    padding: 10px;
+    margin-top: -13px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .Resume-navbar {
+    display: flex;
+    box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0px;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+  
+  .Resume-nav-item {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-bottom: 0px;
+    margin-left: 10px;
+  }
+  
+  .Resume-nav-item:hover {
+    cursor: pointer;
+  }
+  
+  .Resume-nav-item.Resume-active {
+    font-weight: 500;
+    text-decoration: underline;
+  
+  }
+  
+  .Resume-content {
+    padding: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 28vh;
+  
+  }
+  
+  .Resume-content::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .Resume-content::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+  .Resume-content::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  .Feedback {
+    grid-area: Feedback;
+    border-radius: 0px 10px 20px 30px;
+    background-color: white;
+    height: 60vh;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  
+  }
+  
+  .Review-btn {
+    border-radius: 0px 20px;
+    background-color: white;
+    height: auto;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 100%;
+  
+  }
+  
+  .bg-custom {
+  
+    background-color: #b7dd29 !important;
+  }
+  
+  /* Media queries for responsiveness */
+  
+  @media (min-width: 0px) and (max-width: 900px) {
+    .Profile-container {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.3fr 1fr 1fr;
+      grid-template-areas:
+        "Profile"
+        "About"
+        "Portfolio-video"
+        "Resume"
+        "Feedback"
+      ;
+    }
+  
+    .Portfolio-video,
+    .About {
+      margin-top: 0;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .Profile-container {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1.3fr 0.3fr 1.2fr;
+      grid-template-areas:
+        "Profile About About"
+        "Profile Resume Resume"
+        "Profile Resume Resume"
+        "Portfolio-video Resume Resume"
+        "Feedback Feedback Feedback"
+      ;
+    }
+  }
+  
+  /* Availability page css */
+  .Availability-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1.3fr 0.5fr 1.2fr 1fr;
+    gap: 7px 14px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "Availability Availability Availability"
+      "Availability Availability Availability"
+      "Availability Availability Availability"
+      "Availability Availability Availability"
+    ;
+  }
+  
+  .Availability {
+    grid-area: Availability;
+    background-color: white;
+    height: 85vh;
+    padding: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    border-radius: 0px 10px 20px 30px;
+  }
+  
+  #loader {
+    color: #008cff;
+    height: 40px;
+    left: 45%;
+    position: absolute;
+    top: 45%;
+    width: 30%;
+  }
+  
+  .e-past-app {
+    background-color: chocolate !important;
+  }
+  
+  .custom-class.e-schedule .e-vertical-view .e-all-day-appointment-wrapper .e-appointment,
+  .custom-class.e-schedule .e-vertical-view .e-day-wrapper .e-appointment,
+  .custom-class.e-schedule .e-month-view .e-appointment {
+    background: green;
+  }
+  
+  
+  
+  .icons-container {
+    margin-top: 0.5rem;
+  }
+  
+  
+  /* Message Page CSS */
+  
+  .msg-page-container {
+    height: 80vh;
+    margin-left: 30px;
+    margin-bottom: 22px;
+    padding: 10px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .chatList {
+    width: auto;
+    border-right: 1px solid #ccc;
+    margin-right: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+  }
+  .searchUser {
+    padding: 8px;
+    border: none;
+    width: 40vh;
+    border-bottom: 2px solid gray;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-left: 13px;
+  }
+  
+  .MsgList {
+    padding: 10px;
+    overflow-y: auto;
+    height: 50%;
+    scroll-behavior: smooth;
+  }
+   .MsgList::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+   .MsgList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+   .MsgList::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  .chatList::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .chatList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+  .chatList::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  .row-message-input {
+    display: flex;
+    margin-top: 2px;
+    align-items: center;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    margin-bottom: 2px;
+  }
+  
+  .custom-input {
+    border-left: 2px solid gray;
+    margin-left: -26px;
+  
+  }
+  
+  .stats-box {
+    flex: 1; /* Each box will take equal width */
+    margin: 0 10px; /* Consistent margin on left and right */
+    text-align: center; /* Ensure text is centered */
+    min-width: 150px; /* Minimum width for smaller screens */
+  }
+  
+  .vertical-line {
+    border-left: 2px solid #ccc;
+    height: 80px;
+    self-align: center; /* Aligns the line itself */
+  }
+  
+  .stat {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional shadow for better aesthetics */
+  }
+  
+  /* Centering content within the .row */
+  .row.justify-content-center {
+    justify-content: center;
+  }
+  
+  /* Wrap flex items if not enough space */
+  .d-flex.flex-wrap {
+    flex-wrap: wrap;
+  }
+  
+  /* Full width break to wrap onto the next line */
+  .w-100 {
+    width: 100%; /* Forces a wrap to the next line for flex items */
+  }
+  
+  .chart-container {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 20px;
+    max-width: 900px; /* Set a maximum width */
+    margin: 0 auto;
+  }
+  
+  /* Customizes the font and color for chart axes */
+  .chart-container .chart {
+    color: #666;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Style the legend if needed */
+  .chart-container .chart-legend {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Customizes the tooltip */
+  .chart-container .chart-tooltip {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+  }
+  
+  .stat-container {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 20px;
+    max-width: 400px; /* Set a maximum width */
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  
+  /* Customizes the font and color for chart axes */
+  .stat-container .chart {
+    color: #666;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Style the legend if needed */
+  .stat-container .chart-legend {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Customizes the tooltip */
+  .stat-container .chart-tooltip {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+  }
+  
+  /* Style for the overall statistics container */
+  .statistics-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Style for the section titles */
+  .section-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the doughnut chart container */
+  .doughnut-chart-container {
+    max-width: 50%; /* Adjust as needed */
+    margin: 0 auto; /* Center the chart container */
+  }
+  
+  /* Style for the active sales placeholder */
+  .active-sales-placeholder {
+    height: 200px; /* Adjust as needed */
+    border: 2px dashed #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+    font-size: 24px;
+  }
+  
+  /* Style for the legends and the average selling price section */
+  .legends-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+  }
+  
+  /* Sample colors for the legend items */
+  .gigs-color {
+    background-color: #56CCF2;
+  }
+  
+  .custom-offers-color {
+    background-color: #2F80ED;
+  }
+  
+  .avg-selling-price {
+    margin-top: 20px;
+  }
+  
+  /* Style for the toggle buttons */
+  .toggle-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .toggle-button {
+    padding: 5px 20px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+  }
+  
+  .toggle-button.active {
+    background-color: #56CCF2;
+    color: #fff;
+  }
+  
+  

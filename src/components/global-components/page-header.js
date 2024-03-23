@@ -6,9 +6,12 @@ class Page_header extends Component {
   static propTypes = {
     headertitle: PropTypes.string,
     subheader: PropTypes.string,
+    role: PropTypes.string, 
+    toggleRole: PropTypes.func,
   };
 
   render() {
+    let { role, toggleRole } = this.props;
     let HeaderTitle = this.props.headertitle;
     let publicUrl = process.env.PUBLIC_URL + "/";
     let Subheader = this.props.subheader ? this.props.subheader : HeaderTitle;

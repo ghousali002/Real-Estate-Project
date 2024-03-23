@@ -1,0 +1,64 @@
+.active-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust minmax for card size */
+    gap: 20px; /* Space between cards */
+  }
+  
+  .lesson-card {
+  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Card shadow */
+    border-radius: 8px; /* Rounded corners for card */
+    overflow: hidden; /* Ensures the content respects border radius */
+    cursor: pointer;
+  }
+  
+  .student-lesson-header {
+  background-color: var(--color-green-600); /* Header background color */
+    color: #fff; /* Text color for the header */
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .student-lesson-body {
+    background-color: var(--color-grey-0);
+    padding: 15px;
+    line-height: 1.6; /* Spacing between lines */
+    cursor: pointer;
+  }
+  
+  .student-lesson-body h3 {
+    margin-top: 0; /* Removes default margin */
+  }
+  
+  /* Styles for the lesson details */
+  .student-lesson-body p {
+    margin: 10px 0; /* Spacing between paragraphs */
+  }  
+
+  .tabs {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 12px;
+    gap: 20px; /* You can adjust the gap size as needed */
+    font-size: 15px; 
+    cursor: pointer;
+    font-family: 'Roboto Slab';
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tabs div {
+    padding: 10px 2px;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .tabs div:hover {
+    border-bottom: 3px solid rgba(0, 158, 102, 0.7); /* Light underline for hover effect */
+  }
+  
+  .tabs div.start {
+    color: #009e66; /* Text color for the active tab */
+    border-bottom: 3px solid #009e66; /* Solid underline for the active tab */
+    padding-bottom: calc(10px - 3px); /* Adjust padding to align text properly */
+  }
+  
+  

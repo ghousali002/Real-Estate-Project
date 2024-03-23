@@ -26,6 +26,25 @@ const Avatar = styled.img`
 export default function UserAvatar() {
   const { data, isLoading, isError } = useUser();
 
+  const handleImageSrc = (imagePath) => {
+    // Check if imagePath is undefined or null
+    if (!imagePath) {
+        // Return a default image or handle the undefined case as needed
+        console.log("Image path is undefined or null.");
+        return '/path/to/default/image.png'; // Adjust this path to your default image
+    }
+
+    // Check if imagePath starts with "http" or "https"
+    if (imagePath.startsWith('http')) {
+        return imagePath; // Return the URL as-is
+    } else {
+        console.log(imagePath);
+        // Assuming your server is set up to serve images from the 'uploads' directory
+        const baseUrl = "http://localhost:5000/uploads/"; // Adjust this URL to match your server's configuration
+        return baseUrl + imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes if necessary
+    }
+}; 
+
   if (isLoading) {
     // Handle loading state
     return <Spinner />;
@@ -37,12 +56,13 @@ export default function UserAvatar() {
   }
 
   let Name = data.user?.Name || 'Unknown User';
+  const Photo = data?.user?.profilePhoto;
 
   let publicUrl = process.env.PUBLIC_URL + "/";
 
   return (
     <StyledUserAvatar>
-      <Avatar src={publicUrl + "assets/img/default-user.jpg"} alt={`Avatar of ${Name}`} />
+      { Photo ? <Avatar src={handleImageSrc(Photo)} alt={`Avatar of ${Name}`} /> : <Avatar src={publicUrl + "assets/img/default-user.jpg"} alt={`Avatar of ${Name}`} />}
       <h6>{Name}</h6>
     </StyledUserAvatar>
   );

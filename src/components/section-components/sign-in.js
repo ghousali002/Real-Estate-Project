@@ -71,7 +71,7 @@ const SignIn = () => {
           </div>
           <div className="col-md-6">  
           <h2 className="text-center mb-4" style={{ fontWeight: "bold" }}>
-                Member <br/> Sign-in
+              Login as  <br/> Seller
               </h2>
             <form className="signin-inner" onSubmit={handleSubmit(onSubmit)}>
               <div className="row">

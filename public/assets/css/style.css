@@ -1210,7 +1210,7 @@ ul {
   left: 0;
   top: 0;
   /* background: rgba(6, 21, 57, 0.98); */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: rgba(6, 21, 57, 0.98);
 
 }
 .bg-overlay .container {
@@ -1231,7 +1231,7 @@ ul {
   left: 0;
   top: 0;
   /* background: rgba(0, 0, 0, 0.7); */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: rgba(6, 21, 57, 0.98);
 
 }
 .bg-overlay-2 .container {
@@ -1745,7 +1745,7 @@ ul {
 
 .navbar-area-1 .nav-container {
   /* background: #061539; */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: #061539;
 
   padding: 0 0 0 20px !important;
 }
@@ -1758,7 +1758,7 @@ ul {
 }
 .navbar-area-1 .nav-right-part .btn .btn-icon {
   /* background: #061539; */
-  background:  rgba(86, 90, 200, 1) ;
+  background: #061539;
 
   border-radius: 7px;
   padding: 5px;
@@ -2196,7 +2196,7 @@ ul {
   left: 0;
   top: 0;
   /* background: rgba(0, 24, 77, 0.8); */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: rgba(0, 24, 77, 0.8);
 
 }
 
@@ -2576,8 +2576,7 @@ ul {
   position: absolute;
   height: 100%;
   width: 100%;
-  /* background: #061539; */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: #061539;
 
   top: 0;
   left: 0;
@@ -3353,7 +3352,7 @@ ul {
   background-size: cover !important;
   position: relative;
   min-height: 450px;
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: rgba(0, 24, 77, 0.8);
 
 }
 .single-about-inner .details {
@@ -4299,7 +4298,7 @@ ul {
 ---------------------------------------------------*/
 .footer-top {
   /* background: #0d2b5c; */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: rgba(0, 24, 77, 0.8);
 
   padding: 28px 0;
   position: relative;
@@ -4316,13 +4315,12 @@ ul {
   width: 100%;
   left: 0;
   top: 0;
-  /* background: rgba(6, 21, 57, 0.98); */
-  background: linear-gradient(90deg, rgba(172, 90, 190, 1) 0%, rgba(86, 90, 200, 1) 35%);
+  background: rgba(6, 21, 57, 0.98);
 
 }
 .footer-area.style-two .footer-top {
   background: rgba(42, 129, 234, 0.15);
-  background: linear-gradient(70deg, rgb(212, 126, 231) 10%, rgb(107, 111, 221) 25%);
+  background: rgba(0, 24, 77, 0.8);
 
 }
 .footer-area .widget {

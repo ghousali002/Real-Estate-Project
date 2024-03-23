@@ -1,0 +1,7 @@
+.buyerAvatar {
+    width: 30px; /* Smaller size for avatar */
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+  }

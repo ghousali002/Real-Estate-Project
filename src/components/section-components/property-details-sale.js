@@ -6,25 +6,41 @@ const PropertyDetailsSale = () => {
     const location = useLocation();
     const data = location.state;
     let publicUrl = process.env.PUBLIC_URL + "/";
-
     let [propertyData, getpropertyData] = useState("");
 
     useEffect(() => {
       getProperty();
     }, []);
 
-    const getProperty = async () =>
+    const getProperty = async () => {
       await axios
-        .get(
-          "http://localhost:5000/SalePropertyDetail/property-details-sale/" +
-            data,
-          {}
-        )
+        .get("http://localhost:5000/SalePropertyDetail/property-details-sale/" + data)
         .then((res) => {
           const allPropertyData = res.data;
           getpropertyData(allPropertyData);
         });
+    };
 
+    // Function to handle image source
+    const handleImageSrc = (imagePath) => {
+      // Check if imagePath is undefined or null
+      if (!imagePath) {
+          // Return a default image or handle the undefined case as needed
+          console.log("Image path is undefined or null.");
+          return '/path/to/default/image.png'; // Adjust this path to your default image
+      }
+  
+      // Check if imagePath starts with "http" or "https"
+      if (imagePath.startsWith('http')) {
+          console.log(imagePath);
+          return imagePath; // Return the URL as-is
+      } else {
+          console.log(imagePath);
+          // Assuming your server is set up to serve images from the 'uploads' directory
+          const baseUrl = "http://localhost:5000/"; // Adjust this URL to match your server's configuration
+          return baseUrl + imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes if necessary
+      }
+  };  
     return (
       <div className="property-page-area pd-top-120 pd-bottom-90 ">
         <div className="container">
@@ -71,11 +87,11 @@ const PropertyDetailsSale = () => {
             <div className="product-thumbnail-wrapper">
               <div className="single-thumbnail-slider">
                 <div className="slider-item">
-                  <img
+                <img
                     style={{ width: "100%" }}
-                    src={propertyData.MainImage}
-                    alt="img"
-                  />
+                    src={handleImageSrc(propertyData.MainImage)}
+                    alt="Property"
+                />
                 </div>
               </div>
             </div>

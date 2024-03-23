@@ -36,7 +36,7 @@ export function useLogout() {
           navigate('/', { replace: true });
           // You can also redirect the user or perform any other actions after logout
         } catch (error) {
-          // Handle error and show toast message
+          // // Handle error and show toast message
           toast.error("Logout failed. Please try again.");
           throw error;
         }
@@ -45,4 +45,3 @@ export function useLogout() {
   
     return { mutate, isLoading };
   }
-

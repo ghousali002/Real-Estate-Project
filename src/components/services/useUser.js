@@ -2,34 +2,30 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import toast from "react-hot-toast";
 
-
 export function useUser() {
-  const { data, isLoading, isError } = useQuery('user', fetchUser);
+  const queryInfo = useQuery('user', fetchUser);
 
-  return { data, isLoading, isError };
+  return {
+    ...queryInfo, // Spread all properties from the queryInfo object
+    refetchUser: queryInfo.refetch, // Specifically expose the refetch function
+  };
 }
-
 
 const fetchUser = async () => {
   try {
-    // Retrieve the token from local storage
-    const token = localStorage.getItem('token'); // Replace 'yourTokenKey' with the actual key used to store the token
-
-    // Make the request with the token in the Authorization header
+    const token = localStorage.getItem('token');
     const response = await axios.get('http://localhost:5000/seller/user', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 404) {
-      toast.error("User Not Found.");
-    } else if (error.response && error.response.status === 500) {
-      toast.error("Error Fetching details");
-    }
-    throw error;
+    const message = error.response?.status === 404
+      ? "User Not Found."
+      : "Error Fetching details";
+    toast.error(message);
+    throw error; // Rethrowing the error is important for react-query to handle the state correctly
   }
 };

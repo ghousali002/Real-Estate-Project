@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { HiOutlineUser } from "react-icons/hi2";
+import { HiOutlineBell } from "react-icons/hi";
 import ButtonIcon from './ButtonIcon';
 import Logout from './Logout';
 import React from "react";
@@ -17,7 +17,7 @@ export default function HeaderMenu() {
    <StyledHeaderMenu>
      <li>
         <ButtonIcon>
-         <HiOutlineUser />
+         <HiOutlineBell />
         </ButtonIcon>
      </li>
      <li>

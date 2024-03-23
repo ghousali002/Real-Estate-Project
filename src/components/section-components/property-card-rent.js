@@ -18,6 +18,27 @@ const PropertyCardRent = ({
   // Like button to be implmented
   let publicUrl = process.env.PUBLIC_URL + "/";
 
+     // Function to handle image source
+     const handleImageSrc = (imagePath) => {
+      // Check if imagePath is undefined or null
+      if (!imagePath) {
+          // Return a default image or handle the undefined case as needed
+          console.log("Image path is undefined or null.");
+          return '/path/to/default/image.png'; // Adjust this path to your default image
+      }
+  
+      // Check if imagePath starts with "http" or "https"
+      if (imagePath.startsWith('http')) {
+          console.log(imagePath);
+          return imagePath; // Return the URL as-is
+      } else {
+          console.log(imagePath);
+          // Assuming your server is set up to serve images from the 'uploads' directory
+          const baseUrl = "http://localhost:5000/"; // Adjust this URL to match your server's configuration
+          return baseUrl + imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes if necessary
+      }
+  };  
+
   return (
     <>
       <div className="col-lg-4 col-md-6">
@@ -26,7 +47,7 @@ const PropertyCardRent = ({
             <div className="thumb">
               <img
                 style={{ width: "330px", height: "248px" }}
-                src={MainImage}
+                src={handleImageSrc(MainImage)}
                 alt="img"
               />
               <div className="product-wrap-details">

@@ -8,18 +8,18 @@ import toast from "react-hot-toast";
 
 export default function LogOut() {
 
-    const {mutate: logoutMutate , isLoading} = useLogout();
-    const {logoutFrontend } = useAuth();
+  const {mutate: logoutMutate , isLoading} = useLogout();
+  const {logoutFrontend } = useAuth();
 
-    const handleLogout = async () => {
-        try {
-          // Trigger the logout mutation
-          await logoutMutate();
-          logoutFrontend();
-        } catch (error) {
-          toast.error("Logout failed. Please try again.");
-        }
-      };
+  const handleLogout = async () => {
+      try {
+        // Trigger the logout mutation
+        await logoutMutate();
+        logoutFrontend();
+      } catch (error) {
+        toast.error("Logout failed. Please try again.");
+      }
+    };
 
   return (
    <ButtonIcon disabled={isLoading}  onClick={handleLogout}>

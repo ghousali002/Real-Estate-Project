@@ -21,6 +21,12 @@ import AppLayout from "./components/ui/AppLayout";
 import { useAuth } from './components/AuthContext';
 import { Navigate } from 'react-router-dom';
 import PropTypes from "prop-types"; 
+import List from "./components/section-components/Listing/List";
+import ListRent from './components/section-components/Listing/ListRent';
+import AllListings from "./components/section-components/Listing/AllListings";
+import SellerProfile from "./components/section-components/Listing/SellerProfile";
+import { PrivateRoute } from "./components/AuthDashboardRoutes";
+import BuyerLayout from './components/ui/BuyerAppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,8 +38,9 @@ const queryClient = new QueryClient({
 
 function App() {
 
+  const { isAuthenticated} = useAuth();
+
   function ProtectedRoute({ element }) {
-    const { isAuthenticated} = useAuth();
   
     return isAuthenticated ? (
       <AppLayout>{element}</AppLayout>
@@ -46,9 +53,10 @@ function App() {
     element: PropTypes.element.isRequired,
   };
 
+
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <GlobalStyle /> */}
+      <GlobalStyle />
       <Router>
         <div className="App">
           <Routes>
@@ -60,10 +68,25 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/team" element={<Team />} />
             <Route path="/office-map" element={<MapPage />} />
-            <Route
-              path="/dashboard"
-              element={<ProtectedRoute element={<Dashboard />} />}
-            />
+            <Route element={<ProtectedRoute />}>
+            {/* Protected routes as children */}
+            <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/addlistings" element={<List />} />
+              <Route path="/addlistingsrent" element={<ListRent />} />
+              <Route path="/alllistings" element={<AllListings />} />
+              <Route path="/user" element={<SellerProfile />} />
+          </Route>
+
+          <Route
+                path="/dashboardlinks/*"
+                element={
+                  <PrivateRoute
+                    element={<BuyerLayout />}
+                    path="/dashboardlinks/*"
+                  />
+                }
+              />
+
             <Route path="/property-for-sale" element={<PropertyForSale />} />
             <Route path="/property-for-rent" element={<PropertyForRent />} />
             <Route path="/add-property" element={<AddProperty />} />
