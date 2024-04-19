@@ -5,7 +5,7 @@ export default function BuyerDashboard() {
   return (
     <div>
       <BuyerHeader/>
-      Dashboard
+      Dashboard 
     </div>
   )
 }
