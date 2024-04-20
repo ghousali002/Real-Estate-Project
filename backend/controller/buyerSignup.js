@@ -4,6 +4,13 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
+const stripeLib = require("stripe");
+
+
+const STRIPE_SECRET =
+  "sk_test_51Obp44KAlnAzxnFU9PrEBv0K27IsOThelFXmUSTkJk7nhzQ0V20hHm75bDPLsYnPnwWs52TIzmz61rUn1U3uQxH500Ob1C6BIw";
+const stripe = stripeLib(STRIPE_SECRET);
+
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -138,3 +145,37 @@ exports.SignUp = (req, res, next) => {
       });
   });
 };
+
+exports.Payment = async (request, response) => {
+  try {
+    const paymentAmount = request.body.paymentAmount;
+    const amountInCents = paymentAmount * 0.01;
+
+    // Perform payment processing with Stripe
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Book house on 1% of the actual price",
+            },
+            unit_amount: amountInCents,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/cancel",
+    });
+
+    // Send the session ID back to the client
+    response.json({ session });
+  } catch (error) {
+    console.error(error);
+    response.status(500).send({ message: "Internal server error" });
+  }
+};
+

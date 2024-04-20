@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { loadStripe } from "@stripe/stripe-js";
 
 const SaleCard = ({
   PropertyId,
@@ -15,6 +16,37 @@ const SaleCard = ({
   AreaSqFt,
   Owner,
 }) => {
+    const makePayment = async (paymentAmount) => {
+        const stripePromise = loadStripe("pk_test_51Obp44KAlnAzxnFUz8GK3HrpVPY0RkdVZQlKOn7tYAuf5t6LmioU2tdpYEy44MfglP2c4ih8yUiOmOdwJIgLfD7K00s65yhj9D");
+        const stripe = await stripePromise;
+    
+        const body = {
+          paymentAmount: paymentAmount, // Include the payment amount in the request body
+        };
+    
+        const headers = {
+          "Content-Type": "application/json",
+        };
+    
+        try {
+          const response = await fetch("http://localhost:5000/buyer/payment", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body),
+          });
+    
+          console.log(response); // Add this line to inspect the response
+    
+          const session = await response.json();
+    
+          const result = await stripe.redirectToCheckout({
+            sessionId: session.session.id,
+          });
+        } catch (error) {
+          console.error("Error making payment:", error);
+          // Handle errors as needed
+        }
+    };
   // Like button to be implmented
   let publicUrl = process.env.PUBLIC_URL + "/";
 
@@ -104,7 +136,7 @@ const SaleCard = ({
             
             <div> 
             <ul className="meta-inner">
-                <li style={{background:"#56C7F2",color:"black",padding:"0 10px",fontWeight:"bold",width:"160px",borderRadius:"4px",margin:"0px"}}>
+                <li   onClick={() => makePayment(Price)} style={{background:"#56C7F2",color:"black",padding:"0 10px",fontWeight:"bold",width:"160px",borderRadius:"4px",margin:"0px",cursor:"pointer"}}>
                   Book This House
                 </li>
               </ul>

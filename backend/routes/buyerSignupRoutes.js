@@ -11,5 +11,7 @@ BuyersignupController.SignUp,
 );
 
 router.get('/verify/:token', BuyersignupController.verifyEmail);
-
+router.post('/payment', 
+BuyersignupController.Payment,
+);
 module.exports = router;
