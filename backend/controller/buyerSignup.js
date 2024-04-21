@@ -167,8 +167,8 @@ exports.Payment = async (request, response) => {
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
+      success_url: "http://localhost:3000/dashboardlinks/Bookings",
+      cancel_url: "http://localhost:3000/dashboardlinks/Bookings",
     });
 
     // Send the session ID back to the client
