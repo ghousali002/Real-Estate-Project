@@ -14,6 +14,10 @@
   --line-height30: 1.7;
 }
 
+.select-search-container {
+  width: 230px !important; /* Add !important to ensure the width is applied */
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
