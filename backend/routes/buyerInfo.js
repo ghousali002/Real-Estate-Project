@@ -75,4 +75,30 @@ router.post('/book-property/:userId', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while booking the property' });
   }
 });
+
+
+router.post('/book-property-rent/:userId', async (req, res) => {
+  const { propertyId } = req.body;
+  const { userId } = req.params;
+
+  try {
+    // Find the user by userId
+    const user = await BuyerDB.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Push the propertyId to the user's bookedSaleProperties array
+    user.bookedRentProperties.push(propertyId);
+
+    // Save the updated user object
+    await user.save();
+
+    res.status(200).json({ message: 'Property booked successfully', user });
+  } catch (error) {
+    console.error('Error booking property:', error);
+    res.status(500).json({ message: 'An error occurred while booking the property' });
+  }
+});
 module.exports = router;
