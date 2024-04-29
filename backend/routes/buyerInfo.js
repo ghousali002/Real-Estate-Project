@@ -2,7 +2,38 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const BuyerDB = require("../models/buyerSchema");
+const SellerDB = require("../models/sellerSchema");
+
 const secretKey = "realStateSecretKey";
+const nodemailer = require('nodemailer');
+const SalePropertyDetail=require("../models/SalePropertyDetail.models")
+const RentPropertyDetail=require("../models/RentPropertyDetail.models")
+
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: 'arhumnaveed092@gmail.com',
+        pass: 'qhwm oxhc mmvy ujms', 
+  },
+});
+
+const sendEmail = async (recipientEmail, subject, text) => {
+  try {
+    const mailOptions = {
+      from: 'arhumnaveed092@gmail.com', // Your Gmail email address
+      to: recipientEmail,
+      subject: subject,
+      text: text,
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
 
 // Helper function to promisify jwt.verify
 const verifyToken = (token, secretKey) => {
@@ -69,6 +100,29 @@ router.post('/book-property/:userId', async (req, res) => {
     // Save the updated user object
     await user.save();
 
+    const property = await SalePropertyDetail.findById(propertyId);
+    console.log("this is property details",property)
+    const ownerName = property.Owner;
+
+    console.log("this is the owner",ownerName)
+
+    const owner= await SellerDB.findOne({ Name: ownerName });
+
+    if (owner) {
+      console.log("this is the owner details",owner)
+      console.log("this is the owner email",owner.email)
+
+    }
+
+    if (!owner) {
+      console.log("Sale Property booked successfully but without notify owner, owner does not exist")
+      return res.status(200).json({ message: 'Property booked successfully but without notify owner, owner does not exist', user });
+    }
+
+    // Send an email to the property owner
+    await sendEmail(owner.email, 'Property Booked', `Your property (${property.PropertyTitle}) has been booked.`);
+
+    console.log("mail sent to property owner")
     res.status(200).json({ message: 'Property booked successfully', user });
   } catch (error) {
     console.error('Error booking property:', error);
@@ -94,6 +148,31 @@ router.post('/book-property-rent/:userId', async (req, res) => {
 
     // Save the updated user object
     await user.save();
+
+    
+    const property = await RentPropertyDetail.findById(propertyId);
+    console.log("this is property details",property)
+    const ownerName = property.Owner;
+
+    console.log("this is the owner",ownerName)
+
+    const owner= await SellerDB.findOne({ Name: ownerName });
+
+    if (owner) {
+      console.log("this is the owner details",owner)
+      console.log("this is the owner email",owner.email)
+
+    }
+
+    if (!owner) {
+      console.log("Rent Property booked successfully but without notify owner, owner does not exist")
+      return res.status(200).json({ message: 'Property booked successfully but without notify owner, owner does not exist', user });
+    }
+
+    // Send an email to the property owner
+    await sendEmail(owner.email, 'Property Booked', `Your property (${property.PropertyTitle}) has been booked.`);
+
+    console.log("mail sent to property owner")
 
     res.status(200).json({ message: 'Property booked successfully', user });
   } catch (error) {

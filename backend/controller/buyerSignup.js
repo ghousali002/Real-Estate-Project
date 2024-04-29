@@ -159,9 +159,9 @@ exports.Payment = async (request, response) => {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Book house on 1% of the actual price",
+              name: "Booking Fees 50$",
             },
-            unit_amount: amountInCents,
+            unit_amount: 5000,
           },
           quantity: 1,
         },
