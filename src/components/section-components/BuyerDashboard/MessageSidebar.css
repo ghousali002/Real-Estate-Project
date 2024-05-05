@@ -1,0 +1,301 @@
+.message-sidebar {
+    background: var(--color-grey-0);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 300px;
+    border-radius: 15px;
+    height: calc(85vh - 20px);
+    overflow-y: auto; 
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+  
+  .nochat-container{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+  
+  .chatting-pic{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 250px;
+    width: 250px; 
+  }
+  
+  .text-pic{
+    position: absolute;
+    top: 43%;
+    left: 37%;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .down-pic{
+    position: absolute;
+    top: 48%;
+    left: 35%;
+    font-size: 14px;
+  }
+  
+    .chat-list {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .chat-item {
+      display: flex;
+      align-items: start;
+      padding: 10px;
+      padding-left: 2px;
+      border-bottom: 1px solid var(--color-grey-200);
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Ensure the transition applies only to background-color */
+    }  
+  
+    .chat-item:hover {
+      background-color: var( --color-grey-300);
+      border-radius: 15px;
+      cursor: pointer; 
+    }
+  
+    .chat-item.active-chat {
+      background-color: var(--color-grey-300);
+      border-radius: 15px;
+    }
+    
+    .chat-item:last-child {
+      border-bottom: none;
+    }
+    
+    .avatar {
+      background: purple;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 15px;
+    }
+  
+    .search-input {
+      color:  var(--color-grey-800);
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px; 
+      border-radius: 15px;
+      border: 1px solid #ccc;
+      background-color:  var(--color-grey-0); 
+    }
+    
+    .chat-info {
+      flex-grow: 1;
+    }
+    
+    .chat-name {
+      font-weight: bold;
+      color: var(--color-grey-900);
+      font-size: 14px;
+    }
+    
+    .chat-preview {
+      margin: 0;
+      color: var(--color-grey-500);
+    }
+    
+    .chat-time {
+      color: #999;
+      font-size: 12px;
+    }
+    
+    .row-horizontal {
+      display: flex;
+    }
+  
+    .message-window {
+      display: flex;
+      flex-direction: column;
+      height: 100%; 
+      background-color: var(--color-grey-100); 
+      border-radius: 150px;
+    }
+    
+    
+    .message-window-container {
+      flex-grow: 1; 
+      display: flex;
+      flex-direction: column;
+      height: vh; 
+      border-left: 1px solid #ddd;
+      border-radius: 15px;
+    }
+    
+    .message-header {
+      padding: 10px;
+      background-color: skyblue; /* Header background */
+      color: white; 
+      border-radius: 10px;
+    }
+  
+    .message-header .last-seen {
+      color: var(--color-grey-600); /* Or any color you prefer */
+      font-size: 0.8em; /* Smaller than the conversation name */
+      margin-top: 4px; /* Add some space between the conversation name and last seen text */
+    }
+    
+    .message-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    
+    .message-item {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 15px;
+      color: white; /* Message text color */
+      background-color: var(--color-grey-500); /* Message background */
+      align-self: flex-start; /* Align to the left */
+    }
+    
+    .message-item.own {
+      background-color: var(--color-green-600); /* Own message background */
+      align-self: flex-end; /* Align to the right */
+    }
+    
+    .message-content {
+      /* Additional styling for message content */
+    }
+    
+    .message-time {
+      color: var(--color-grey-0); /* Time text color */
+      font-size: 12px;
+      text-align: right;
+    }
+    
+    .message-input {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: skyblue;
+      border-radius: 10px;
+      
+    }
+    
+    .message-input input {
+      flex-grow: 1;
+      border-radius: 15px;
+      border: none;
+      padding: 10px;
+      margin-left: 10px;
+      color: black;
+    }
+    
+    .message-input button {
+      background-color: var(--color-green-600);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    
+    .emoji-picker-container {
+      position: absolute; /* Adjust if necessary to position relative to the toggle element */
+      bottom: 50px; /* Adjust this value to position the picker right below the input area */
+      right: 300px; /* Adjust based on your layout */
+      display: none; /* Initially hidden */
+      z-index: 1000; 
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    }
+    
+    .emoji-picker-container.show {
+      display: flex; /* Displayed as flex to center the emoji picker modal */
+    }
+    
+    .emoji-picker-modal {
+      position: relative; /* Relative to the container */
+      width: auto; /* Adjust width as necessary */
+      height: auto; /* Adjust height as necessary */
+      background: var(--color-grey-100); /* Or any color you want for the modal */
+      border-radius: 10px; /* Optional: for rounded corners */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Optional: for shadow */
+      /* Additional styling to center the modal */
+    }
+    
+    
+    /* Hide emoji picker by default and only show it when the container is active */
+    .emoji-picker-react {
+      display: none;
+    }
+    
+    .emoji-picker-container.show .emoji-picker-react {
+      display: block;
+    }
+  
+    .emoji-button, .attachment-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      margin-left: 10px;
+  
+    }
+    
+    /* Adjust the send button to have margin only on the left side */
+    .send-button {
+      margin-left: 10px;
+    }
+    
+    /* Icons placeholders - you will need to replace these with actual icons */
+    .EmojiIcon, .AttachmentIcon {
+      display: inline-block;
+      width: 20px; /* Your icon width */
+      height: 20px; /* Your icon height */
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
+    /* Example placeholders, you should use actual icon images */
+    /* .EmojiIcon {
+      background-image: url('path-to-your-emoji-icon.png'); // Update with the path to your emoji icon 
+    }
+    
+    .AttachmentIcon {
+      background-image: url('path-to-your-attachment-icon.png'); // Update with the path to your attachment icon 
+    } */
+    
+    
+    .message-input button {
+      background-color: var(--color-green-600); /* Send button background */
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+  
+    .sidebar::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+      border-radius: 10px;
+    }
+    
+    .sidebar::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+  
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
+    .sidebar::-webkit-scrollbar {
+      width: 8px; /* Smaller width */
+    }

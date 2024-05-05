@@ -25,6 +25,7 @@ import List from "./components/section-components/Listing/List";
 import ListRent from './components/section-components/Listing/ListRent';
 import AllListings from "./components/section-components/Listing/AllListings";
 import SellerProfile from "./components/section-components/Listing/SellerProfile";
+import SellerMessage from "./components/section-components/Listing/SellerMessage";
 import { PrivateRoute } from "./components/AuthDashboardRoutes";
 import BuyerLayout from './components/ui/BuyerAppLayout';
 
@@ -75,6 +76,7 @@ function App() {
               <Route path="/addlistingsrent" element={<ListRent />} />
               <Route path="/alllistings" element={<AllListings />} />
               <Route path="/user" element={<SellerProfile />} />
+              <Route path="/message/*" element={<SellerMessage />} />
           </Route>
 
           <Route

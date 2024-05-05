@@ -96,7 +96,7 @@ export default function MainNav() {
         </li>
 
         <li>
-          <StyledLink to="#">
+          <StyledLink to="/message">
             <HiOutlineCog6Tooth />
             <span>
            Messages

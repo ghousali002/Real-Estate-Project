@@ -37,9 +37,15 @@ const GetListing = require('./routes/GetListing');
 const uploadPhoto = require('./routes/uploadPhoto');
 const buyerRoutes = require('./routes/buyerSignupRoutes');
 const checkrole = require('./routes/CheckRole');
+const conversationRoutes = require('./routes/conversationRoutes');
+const messageRoutes = require('./routes/messageingRoutes');
+
+
 
 
 app.use("/uploads",express.static(path.join(__dirname,"uploads")));
+app.use(conversationRoutes);
+app.use(messageRoutes);
 app.use(AddListing);
 app.use(checkrole);
 app.use(uploadPhoto);

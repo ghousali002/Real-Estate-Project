@@ -14,6 +14,7 @@ class SaleProperties extends Component {
       .get("http://localhost:5000/SalePropertyDetail/")
       .then((response) => {
         if (response.data) {
+          console.log("sale properties:",response.data);
           this.setState({
             SaleProperties: response.data,
           });
@@ -46,6 +47,7 @@ class SaleProperties extends Component {
                   Bathrooms={property.Bathrooms}
                   AreaSqFt={property.AreaSqFt}
                   Owner={property.Owner}
+                  propertySallerId ={property.userId ? property.userId : 'null'}
                 />
               );
             })}

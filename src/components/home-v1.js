@@ -63,7 +63,7 @@ const Home_V1 = () => {
                   <div className="col-md-5">
                     
                       <Link
-                        to={`/property-for-sale?location=lahore&property=commercial&MinPrice=200000&MaxPrice=30000000 `}
+                        to={`/property-for-sale?location=lahore&property=commercial&MinPrice=200000&MaxPrice=3000000000`}
                         className="btn btn-base w-100"
                       >
                         <i className="fa fa-search mr-1" /> Find a Perfect Home

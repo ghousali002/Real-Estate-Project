@@ -19,7 +19,8 @@ const fetchUser = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-
+    
+    localStorage.setItem('userId', response.data.user._id);
     return response.data;
   } catch (error) {
     const message = error.response?.status === 404
