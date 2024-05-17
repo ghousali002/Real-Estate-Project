@@ -43,4 +43,14 @@ router.get("/user", verifyToken, async (req, res) => {
   }
 });
 
+
+router.get('/get-sellers', async (req, res) => {
+  try {
+    const users = await SellerDB.find();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users', error });
+  }
+});
+
 module.exports = router;

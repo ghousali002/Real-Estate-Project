@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const BuyerDB = require("../models/buyerSchema");
 const SellerDB = require("../models/sellerSchema");
-
 const secretKey = "realStateSecretKey";
 const nodemailer = require('nodemailer');
 const SalePropertyDetail=require("../models/SalePropertyDetail.models")
@@ -178,6 +177,16 @@ router.post('/book-property-rent/:userId', async (req, res) => {
   } catch (error) {
     console.error('Error booking property:', error);
     res.status(500).json({ message: 'An error occurred while booking the property' });
+  }
+});
+
+
+router.get('/get-buyers', async (req, res) => {
+  try {
+    const users = await BuyerDB.find();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users', error });
   }
 });
 module.exports = router;

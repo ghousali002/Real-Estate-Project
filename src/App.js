@@ -28,6 +28,8 @@ import SellerProfile from "./components/section-components/Listing/SellerProfile
 import SellerMessage from "./components/section-components/Listing/SellerMessage";
 import { PrivateRoute } from "./components/AuthDashboardRoutes";
 import BuyerLayout from './components/ui/BuyerAppLayout';
+import AdminLogin from "./components/section-components/AdminDashboard/AdminLogin";
+import AdminDashboard from "./components/section-components/AdminDashboard/AdminDashboard";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +64,10 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<HomeV1 />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/contact" element={<Contact />} />
