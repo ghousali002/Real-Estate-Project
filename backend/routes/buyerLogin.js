@@ -44,7 +44,7 @@ router.post(
       expiresIn: "1h", // Token expiration time
     });
 
-    return res.json({ token, message: "Login Successful" });
+    return res.json({ token,buyer, message: "Login Successful" });
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ message: "An Unexpected Error Occurred" });

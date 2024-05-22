@@ -3,8 +3,6 @@ const router = express.Router();
 const Conversation = require('../models/conversationSchema');
 const buyerDB = require('../models/buyerSchema');
 const sellerDB = require('../models/sellerSchema');
-// const TeacherDb = require('../models/teacherSchema');
-// const StudentDb = require('../models/studentSchema');
 
 //Get all conversations for a Buyer
 router.get('/BuyerConversations/:buyerId', async (req, res) => {
@@ -48,14 +46,15 @@ router.get('/SellerConversations/:sellerId', async (req, res) => {
     const conversationsWithBuyerDetails = await Promise.all(conversations.map(async conversation => {
       const buyerId = conversation.members[1];
       const buyer = await buyerDB.findById(buyerId);
-
+      const buyerProfilePicture = buyer.profilePhoto ? buyer.profilePhoto : 'null';
+     
       return {
         ...conversation.toObject(),
-        buyerProfilePicture: buyer.profilePhoto | 'null',
+        buyerProfilePicture: buyerProfilePicture,
         buyerName: buyer.Name,
       };
     }));
-
+   
     res.json(conversationsWithBuyerDetails);
   } catch (error) {
     console.error(error);

@@ -95,7 +95,7 @@ export async function login({ email, password }) {
       // Store the token in local storage or in your preferred state management
       localStorage.setItem('token', token);
       document.cookie = `token=${token}; path=/; samesite=strict; secure`;
-  
+      localStorage.setItem('buyerId',response.data.buyer._id);
       return response.data;
     } catch (error) {
       // Handle different error scenarios

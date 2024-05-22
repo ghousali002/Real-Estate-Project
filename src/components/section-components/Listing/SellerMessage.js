@@ -5,10 +5,10 @@ import EmojiPicker from 'emoji-picker-react';
 import "react-chat-elements/dist/main.css";
 import { toast } from 'react-hot-toast';
 import { Spinner } from "react-bootstrap";
-
+import { useSellerSocket } from '../../services/sallerSocketContext';
 export default function Message() {
 
-
+    const socket = useSellerSocket();
 
     const sellerId = localStorage.getItem("userId");
 
@@ -34,7 +34,7 @@ export default function Message() {
         // },
     ]
     );
-
+    console.log(socket);
     const fetchMessages = async (conversationId) => {
         try {
 
@@ -70,7 +70,7 @@ export default function Message() {
                 }
                 const data = await response.json();
                 setConversations(data);
-                //console.log("conversations: ",data);
+                console.log("conversations: ", data);
 
             } catch (error) {
                 toast.error(error);
@@ -149,15 +149,50 @@ export default function Message() {
         id: conversation._id,
         title: conversation.buyerName,
         subtitle: 'Message placeholder',
-        avatar:  conversation.buyerProfilePicture,
+        //avatar:  ''+conversation.buyerProfilePicture,
+        avatar: `http://localhost:5000/uploads/${conversation.buyerProfilePicture}`,
         alt: 'default-user.jpg',
         date: new Date(),
     })).filter(message => message.title.toLowerCase().includes(searchKeyword.toLowerCase()));
 
+    useEffect(() => {
+        if (socket) {
+            socket.on('getUser', users => {
+                console.log('Socket GetUser online List', users);
+            })
+            socket.on('getMessage', msgdata => {
+                console.log(msgdata);
+                const { type } = msgdata;
+                if (type === 'text') {
+
+                    const newMessage = {
+                        position: "left",
+                        type: msgdata.type,
+                        text: msgdata.text,
+                        date: new Date(msgdata.date),
+                    };
+                    setMessages(prevMessages => [...prevMessages, newMessage]);
+                }
+            });
+            socket.on('sendItself', msgdata => {
+                console.log(msgdata);
+                const { type } = msgdata;
+                if (type === 'text') {
+
+                    const newMessage = {
+                        position: "right",
+                        type: msgdata.type,
+                        text: msgdata.text,
+                        date: new Date(msgdata.date),
+                    };
+                    setMessages(prevMessages => [...prevMessages, newMessage]);
+                }
+            });
+        }
+    }, [socket]);
 
     const handleSend = async () => {
         try {
-        console.log('localstorage: ',localStorage);
             if (!selectedChat) {
                 console.log('please select a chat');
                 toast.error('Please select a chat');
@@ -170,7 +205,7 @@ export default function Message() {
                 return;
             }
 
-            //const senderId = localStorage.getItem("userId");
+            const senderId = localStorage.getItem("userId");
             // socket?.emit('sendMessage', { 
             //   conversationId : selectedChat.id, 
             //   senderId : senderId, 
@@ -179,13 +214,14 @@ export default function Message() {
             //   type: 'text', 
             //   date: new Date() });
 
-            // const messageData = {
-            //     recipientId: selectedChat.id,
-            //     senderId: senderId,
-            //     text: inputValue.trim(),
-            //     type: "text",
-            //     date: new Date(),
-            // };
+            const messageData = {
+                conversationId: selectedChat.id,
+                senderId: senderId,
+                recieverId: recieverId,
+                text: inputValue.trim(),
+                type: "text",
+                date: new Date(),
+            };
             // const response = await fetch('http://localhost:5000/messages', {
             //     method: 'POST',
             //     headers: {
@@ -197,15 +233,15 @@ export default function Message() {
             // if (!response.ok) {
             //     throw new Error('Failed to send message');
             // }
-            //socket.emit('sendMessage', messageData);
+            socket.emit('sendMessage', messageData);
             setInputValue('');
-            const newMessage = {
-              position: "right",
-              type: "text",
-              text: inputValue.trim(),
-              date: new Date(),
-            };
-            setMessages(prevMessages => [...prevMessages, newMessage]);
+            // const newMessage = {
+            //   position: "right",
+            //   type: "text",
+            //   text: inputValue.trim(),
+            //   date: new Date(),
+            // };
+            // setMessages(prevMessages => [...prevMessages, newMessage]);
             toast.success('Message sent successfully');
         } catch (error) {
             console.error('Error sending message:', error);
@@ -222,7 +258,7 @@ export default function Message() {
                         type="text"
                         placeholder="Search..."
                         onChange={(e) => setSearchKeyword(e.target.value)}
-                        style={{marginRight:'7px'}}
+                        style={{ marginRight: '7px' }}
 
                     />
                     {chatListLoading ? (
@@ -249,11 +285,20 @@ export default function Message() {
                     {selectedChat ?
                         <>
                             <div className="row" style={{ borderBottom: "2px solid #ccc" }}>
-                                <div className="avatar col-1" style={{marginLeft: '20px'}}>
+                                <div className="avatar col-1" 
+                                style={{ marginLeft: '20px', borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}
+                                >
                                     {selectedChat.avatar ? (
-                                        <img height={40} width={40}  src={`http://localhost:5000/uploads/${selectedChat.avatar}`} alt="Profile" />
+                                        <img
+                                            src={`${selectedChat.avatar}`}
+                                            alt="Profile"
+                                            style={{ borderRadius: '50%', maxWidth: '100%',filter: 'none' }} 
+                                            //style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        />
                                     ) : (
-                                        selectedChat.title[0]
+                                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', backgroundColor: '#ccc', borderRadius: '50%' }}>
+                                            {selectedChat.title[0]}
+                                        </div>
                                     )}
                                 </div>
                                 <div className=" col-5"
@@ -276,7 +321,7 @@ export default function Message() {
                                     <Spinner />
                                 </div>) : (<MessageList className="message-list" style={{ maxWidth: '80%', overflow: 'hidden' }} dataSource={message} />)}
                             </div>
-                            <div className="row row-message-input" style={{marginLeft: 'auto',marginTop:'17px'}} >
+                            <div className="row row-message-input" style={{ marginLeft: 'auto', marginTop: '17px' }} >
                                 <div className="col " style={{ position: "relative" }} ref={emojiPickerRef} >
                                     <Button
                                         onClick={() => setShowEmojiPicker(!showEmojiPicker)}

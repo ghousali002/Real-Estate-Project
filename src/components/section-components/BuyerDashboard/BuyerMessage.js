@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import BuyerMessageWindow from "./BuyerMessageWindow";
 import { useEffect } from 'react';
 import toast from "react-hot-toast";
-
+import { useBuyerSocket } from '../../services/buyerSocketContext';
 import { Spinner } from "react-bootstrap";
 
 
@@ -35,9 +35,48 @@ export default function BuyerMessage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [conversations, setConversations] = useState([]);
   const [recieverId, setRecieverId] = useState(null)
+  const socket = useBuyerSocket();
+
+  useEffect(()=>{
+    if(socket){
+      console.log('socket : ',socket);
+      socket.on('getUser', users => {
+        console.log('Socket GetUser online List', users);
+      })
+      socket.on('getMessage', msgdata => {
+        console.log(msgdata);
+        const { type } = msgdata;
+        if (type === 'text') {
+
+          const newMessage = {
+            position: "left",
+            type: msgdata.type,
+            text: msgdata.text,
+            date: new Date(msgdata.date),
+          };
+          setMessages(prevMessages => [...prevMessages, newMessage]);
+        }
+      });
+      socket.on('sendItself', msgdata => {
+        console.log(msgdata);
+        const { type } = msgdata;
+        if (type === 'text') {
+
+          const newMessage = {
+            position: "right",
+            type: msgdata.type,
+            text: msgdata.text,
+            date: new Date(msgdata.date),
+          };
+          setMessages(prevMessages => [...prevMessages, newMessage]);
+        }
+      });
+    }
+  },[socket])
+
 
   useEffect(() => {
-    const buyerId = localStorage.getItem('userId');
+    const buyerId = localStorage.getItem("buyerId");
     const fetchConversations = async () => {
       try {
         const response = await fetch(`http://localhost:5000/BuyerConversations/${buyerId}`);
@@ -76,8 +115,8 @@ export default function BuyerMessage() {
 
   const fetchMessages = async (conversationId) => {
     try {
-      const userId = localStorage.getItem('userId');
-      const url = `http://localhost:5000/messages/${conversationId}?userId=${userId}`;
+      const buyerId = localStorage.getItem('buyerId');
+      const url = `http://localhost:5000/messages/${conversationId}?userId=${buyerId}`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -163,7 +202,7 @@ export default function BuyerMessage() {
               activeConversation={selectedChatMessages[0].name}
               lastSeen="April 10, 10:45 AM"
               setMessages={setMessages}
-              //socket={socket}
+              socket={socket}
             />
           ) : (
             <div className="nochat-container" style={{marginTop:'35px',height:500}}>

@@ -19,8 +19,8 @@ import Dashboard from './components/Dashboard';
 import GlobalStyle from './GlobalCss';
 import AppLayout from "./components/ui/AppLayout";
 import { useAuth } from './components/AuthContext';
-import { Navigate } from 'react-router-dom';
-import PropTypes from "prop-types"; 
+import { Navigate, Outlet } from 'react-router-dom';
+import PropTypes from "prop-types";
 import List from "./components/section-components/Listing/List";
 import ListRent from './components/section-components/Listing/ListRent';
 import AllListings from "./components/section-components/Listing/AllListings";
@@ -30,7 +30,9 @@ import { PrivateRoute } from "./components/AuthDashboardRoutes";
 import BuyerLayout from './components/ui/BuyerAppLayout';
 import AdminLogin from "./components/section-components/AdminDashboard/AdminLogin";
 import AdminDashboard from "./components/section-components/AdminDashboard/AdminDashboard";
-
+import SellerSocketWrapper from './SellerSocketWrapper';
+import BuyerSocketWrapper from './BuyerSocketWrapper';
+import { useBuyerAuth } from './components/BuyerContext';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -41,10 +43,10 @@ const queryClient = new QueryClient({
 
 function App() {
 
-  const { isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
 
   function ProtectedRoute({ element }) {
-  
+
     return isAuthenticated ? (
       <AppLayout>{element}</AppLayout>
     ) : (
@@ -57,6 +59,7 @@ function App() {
   };
 
 
+  const { isBuyerAuthenticated } = useBuyerAuth();
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
@@ -76,16 +79,22 @@ function App() {
             <Route path="/team" element={<Team />} />
             <Route path="/office-map" element={<MapPage />} />
             <Route element={<ProtectedRoute />}>
-            {/* Protected routes as children */}
-            <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/addlistings" element={<List />} />
-              <Route path="/addlistingsrent" element={<ListRent />} />
-              <Route path="/alllistings" element={<AllListings />} />
-              <Route path="/user" element={<SellerProfile />} />
-              <Route path="/message/*" element={<SellerMessage />} />
-          </Route>
+              {/* Protected routes as children */}
+              <Route element={<SellerSocketWrapper isAuthenticated={isAuthenticated}><Outlet /></SellerSocketWrapper>}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/addlistings" element={<List />} />
+                <Route path="/addlistingsrent" element={<ListRent />} />
+                <Route path="/alllistings" element={<AllListings />} />
+                <Route path="/user" element={<SellerProfile />} />
+                <Route path="/message/*" element={<SellerMessage />} />
+              </Route>
 
-          <Route
+            </Route>
+
+
+            <Route element={<BuyerSocketWrapper isBuyerAuthenticated={isBuyerAuthenticated} > <Outlet /> </BuyerSocketWrapper>}>
+
+              <Route
                 path="/dashboardlinks/*"
                 element={
                   <PrivateRoute
@@ -94,6 +103,7 @@ function App() {
                   />
                 }
               />
+            </Route>
 
             <Route path="/property-for-sale" element={<PropertyForSale />} />
             <Route path="/property-for-rent" element={<PropertyForRent />} />

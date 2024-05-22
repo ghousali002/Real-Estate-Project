@@ -3,7 +3,11 @@ const cors = require("cors");
 const moongoose = require("mongoose");
 const userRoutes = require('./routes/signupRoutes');
 const path = require('path');
-
+const io = require("socket.io")(8000, {
+  cors: {
+    origin: "http://localhost:3000",
+  }
+});
 require("dotenv").config();
 
 const app = express();
@@ -39,9 +43,56 @@ const buyerRoutes = require('./routes/buyerSignupRoutes');
 const checkrole = require('./routes/CheckRole');
 const conversationRoutes = require('./routes/conversationRoutes');
 const messageRoutes = require('./routes/messageingRoutes');
+const Message = require('./models/messageSchema');
 
 
+let connectedClients = [];
 
+io.on("connection", (socket) => {
+  // console.log("New client connection:", socket.id);
+  // Store user information when a client connects
+  socket.on("addUser", (userId) => {
+    const isUserExist = connectedClients.find((user) => user.userId === userId);
+    if (!isUserExist) {
+      console.log("New client connected:", socket.id);
+
+      const user = { userId: userId, socketId: socket.id };
+      connectedClients.push(user);
+      io.emit('getUser', connectedClients);
+    }else{
+      const existingUserIndex = connectedClients.findIndex(
+        (user) => user.userId === userId
+      );
+      console.log("User already exists, updating socketId:", socket.id);
+      connectedClients[existingUserIndex].socketId = socket.id;
+      io.emit('getUser', connectedClients);
+    }
+  });
+  socket.on('disconnect', () => {
+    //connectedClients = connectedClients.filter((user) => user.socketId !== socket?.id);  crashed
+    const index = connectedClients.findIndex((user) => user.socketId === socket?.id);
+    if (index !== -1) {
+      connectedClients.splice(index, 1);
+      io.emit('getUser', connectedClients);
+    }
+    io.emit('getUser', connectedClients);
+    
+  });
+
+  socket.on('sendMessage', async (msgdata) => {
+    const reciever = connectedClients.find((user) => user.userId === msgdata.recieverId);
+    console.log('data',msgdata);
+    if(reciever){
+      console.log('reciever find in connected clients: ',reciever);
+      io.to(reciever.socketId).emit('getMessage', msgdata);
+    }
+    io.to(socket.id).emit('sendItself', msgdata);
+    const { conversationId, senderId, text,type ,date } = msgdata;
+    const newMessage = new Message({ conversationId, senderId, message:text, type,date});
+    await newMessage.save();
+  })
+  
+});
 
 app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 app.use(conversationRoutes);

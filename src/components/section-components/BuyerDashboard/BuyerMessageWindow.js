@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 
 
 
-const BuyerMessageWindow = ({ messages, activeConversation, selectedChatId, lastSeen, setMessages, recieverId }) => {
+const BuyerMessageWindow = ({ messages, activeConversation, selectedChatId, lastSeen, setMessages, recieverId,socket }) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const emojiPickerRef = useRef();
@@ -69,27 +69,30 @@ const BuyerMessageWindow = ({ messages, activeConversation, selectedChatId, last
                 toast.error('Please enter a message');
                 return;
             }
-            const buyerId = localStorage.getItem('userId');
+            const buyerId = localStorage.getItem('buyerId');
 
             //in route i just made conversationID, senderId and message=text in backend for database
             const messageData = {
                 conversationId: selectedChatId,
                 senderId: buyerId,
+                recieverId:recieverId,
                 text: inputValue.trim(),
                 type: "text",
                 date: new Date(),
             };
-            const response = await fetch('http://localhost:5000/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(messageData),
-            });
+            socket.emit('sendMessage', messageData);
 
-            if (!response.ok) {
-                throw new Error('Failed to send message');
-            }
+            // const response = await fetch('http://localhost:5000/messages', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(messageData),
+            // });
+
+            // if (!response.ok) {
+            //     throw new Error('Failed to send message');
+            // }
             setInputValue('');
             //   socket?.emit('sendMessage', { 
             //     conversationId : selectedChatId, 
@@ -98,13 +101,13 @@ const BuyerMessageWindow = ({ messages, activeConversation, selectedChatId, last
             //     text: inputValue.trim(), 
             //     type: 'text', 
             //     date: new Date() });
-            const newMessage = {
-                position: "right",
-                type: "text",
-                text: inputValue.trim(),
-                date: new Date(),
-            };
-            setMessages(prevMessages => [...prevMessages, newMessage]);
+            // const newMessage = {
+            //     position: "right",
+            //     type: "text",
+            //     text: inputValue.trim(),
+            //     date: new Date(),
+            // };
+            // setMessages(prevMessages => [...prevMessages, newMessage]);
             toast.success('Message sent successfully');
         } catch (error) {
             console.error('Error sending message:', error);
@@ -174,7 +177,7 @@ BuyerMessageWindow.propTypes = {
     lastSeen: PropTypes.string.isRequired,
     recieverId: PropTypes.string.isRequired,
     setMessages: PropTypes.func.isRequired,
-    //socket: PropTypes.object.isRequired,
+    socket: PropTypes.object.isRequired,
 };
 
 export default BuyerMessageWindow;
