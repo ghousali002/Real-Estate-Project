@@ -44,6 +44,7 @@ const checkrole = require('./routes/CheckRole');
 const conversationRoutes = require('./routes/conversationRoutes');
 const messageRoutes = require('./routes/messageingRoutes');
 const Message = require('./models/messageSchema');
+const Convo = require('./models/conversationSchema');
 
 
 let connectedClients = [];
@@ -82,14 +83,28 @@ io.on("connection", (socket) => {
   socket.on('sendMessage', async (msgdata) => {
     const reciever = connectedClients.find((user) => user.userId === msgdata.recieverId);
     console.log('data',msgdata);
+    console.log('connectedClients: ',connectedClients)
     if(reciever){
       console.log('reciever find in connected clients: ',reciever);
       io.to(reciever.socketId).emit('getMessage', msgdata);
     }
     io.to(socket.id).emit('sendItself', msgdata);
     const { conversationId, senderId, text,type ,date } = msgdata;
+    await Convo.findByIdAndUpdate(conversationId, {
+      lastMessage: text,
+      lastMessageDate: date
+    });
+    
     const newMessage = new Message({ conversationId, senderId, message:text, type,date});
     await newMessage.save();
+    const lastMessageObj= {conversationId,text,date} 
+    // io.to(socket.id).emit('updateLastMessageItself', lastMessageObj );
+    // if(reciever){
+    //   io.to(reciever.socketId).emit('GetupdateLastMessage',lastMessageObj );
+    // }
+   
+  
+
   })
   
 });

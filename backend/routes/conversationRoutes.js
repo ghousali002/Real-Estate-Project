@@ -52,6 +52,8 @@ router.get('/SellerConversations/:sellerId', async (req, res) => {
         ...conversation.toObject(),
         buyerProfilePicture: buyerProfilePicture,
         buyerName: buyer.Name,
+        lastMessage: conversation.lastMessage | null,
+        lastMessageDate: conversation.lastMessageDate | null
       };
     }));
    
