@@ -17,14 +17,24 @@ router.get('/BuyerConversations/:buyerId', async (req, res) => {
       const sellerId = conversation.members[0];
       const seller = await sellerDB.findById(sellerId);
       const sellerProfilePicture = seller.profilePhoto ? seller.profilePhoto : 'null';
+      const lastMessage = conversation.lastMessage ? conversation.lastMessage : null;
+      const lastMessageDate= conversation.lastMessageDate ? conversation.lastMessageDate : null;
+      const unreadItem = conversation.unread.find(unreadItem => unreadItem.senderId !== buyerId);
+      let unread = 0;
+      if (unreadItem) {
+        unread = unreadItem.count;
+      }
 
       return {
         ...conversation.toObject(),
         buyerProfilePicture: sellerProfilePicture,
         buyerName: seller.Name,
+        lastMessage,
+        lastMessageDate,
+        unread
       };
     }));
-    //console.log('conversationsWithsellerDBDetails: ',conversationsWithsellerDetails);
+    console.log('conversationsWithsellerDBDetails: ',conversationsWithsellerDetails);
     res.json(conversationsWithsellerDetails);
   } catch (error) {
     console.error(error);
@@ -45,17 +55,25 @@ router.get('/SellerConversations/:sellerId', async (req, res) => {
 
     const conversationsWithBuyerDetails = await Promise.all(conversations.map(async conversation => {
       const buyerId = conversation.members[1];
+      const lastMessage = conversation.lastMessage ? conversation.lastMessage : null;
+      const lastMessageDate= conversation.lastMessageDate ? conversation.lastMessageDate : null;
       const buyer = await buyerDB.findById(buyerId);
       const buyerProfilePicture = buyer.profilePhoto ? buyer.profilePhoto : 'null';
-     
+      const unreadItem = conversation.unread.find(unreadItem => unreadItem.senderId !== sellerId);
+      let unread = 0;
+      if (unreadItem) {
+        unread = unreadItem.count;
+      }
       return {
         ...conversation.toObject(),
         buyerProfilePicture: buyerProfilePicture,
         buyerName: buyer.Name,
-        lastMessage: conversation.lastMessage | null,
-        lastMessageDate: conversation.lastMessageDate | null
+        lastMessage,
+        lastMessageDate,
+        unread
       };
     }));
+    console.log('conversationsWithBuyerDetails: ',conversationsWithBuyerDetails);
    
     res.json(conversationsWithBuyerDetails);
   } catch (error) {

@@ -75,27 +75,7 @@ export default function BuyerMessage() {
             date: new Date(msgdata.date),
           };
           setMessages(prevMessages => [...prevMessages, newMessage]);
-          const { conversationId, text, date } = msgdata;
-
-          // const convoIndex = filteredMessages.findIndex(convo => convo.conversationId === conversationId);
-          // if (convoIndex !== -1) {
-          //   filteredMessages[convoIndex].messagePreview = text;
-          //   filteredMessages[convoIndex].time = new Date(date);
-          //   const updatedConvo = filteredMessages.splice(convoIndex, 1)[0];
-          //   filteredMessages.unshift(updatedConvo);
-          // }
-          const updatedFilteredMessages = filterMessageConvo.map(conversation => {
-            if (conversation.id === conversationId) {
-              return {
-                ...conversation,
-                messagePreview: text,
-                time: date
-              };
-            }
-            return conversation;
-          });
-
-          setFilterMessageConvo(updatedFilteredMessages);
+          fetchConversations();
         }
       });
       socket.on('sendItself', msgdata => {

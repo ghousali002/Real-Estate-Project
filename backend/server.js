@@ -90,21 +90,23 @@ io.on("connection", (socket) => {
     }
     io.to(socket.id).emit('sendItself', msgdata);
     const { conversationId, senderId, text,type ,date } = msgdata;
-    await Convo.findByIdAndUpdate(conversationId, {
-      lastMessage: text,
-      lastMessageDate: date
-    });
+    const conversation = await Convo.findById(conversationId);
+
+    if (conversation) {
+      const senderUnread = conversation.unread.find(unreadItem => unreadItem.senderId === senderId);
+    
+      if (senderUnread) {
+        senderUnread.count += 1;
+      } else {
+        conversation.unread.push({ senderId, count: 1 });
+      }
+      conversation.lastMessage = text;
+      conversation.lastMessageDate = date;
+      await conversation.save();
+    }
     
     const newMessage = new Message({ conversationId, senderId, message:text, type,date});
     await newMessage.save();
-    const lastMessageObj= {conversationId,text,date} 
-    // io.to(socket.id).emit('updateLastMessageItself', lastMessageObj );
-    // if(reciever){
-    //   io.to(reciever.socketId).emit('GetupdateLastMessage',lastMessageObj );
-    // }
-   
-  
-
   })
   
 });

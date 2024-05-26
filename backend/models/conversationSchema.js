@@ -12,7 +12,17 @@ const conversationSchema = new mongoose.Schema({
     lastMessageDate: {
         type: Date, 
         default: null,
+    },
+    unread: {
+        type: [
+            {
+                senderId: { type: String , default: null },
+                count: { type: Number, default: 0 }
+            }
+        ],
+        default: []
     }
+
 });
 const Conversation = mongoose.model('Conversation', conversationSchema); 
 

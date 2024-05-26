@@ -60,26 +60,27 @@ export default function Message() {
         }
     };
 
-    useEffect(() => {
-        const sellerId = localStorage.getItem("userId");
-        const fetchConversations = async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/SellerConversations/${sellerId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch conversations');
-                }
-                const data = await response.json();
-                setConversations(data);
-                console.log("conversations: ", data);
-
-            } catch (error) {
-                toast.error(error);
-                console.error(error);
-
-            } finally {
-                setchatListLoading(false);
+    const fetchConversations = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/SellerConversations/${sellerId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch conversations');
             }
-        };
+            const data = await response.json();
+            setConversations(data);
+            console.log("conversations: ", data);
+
+        } catch (error) {
+            toast.error(error);
+            console.error(error);
+
+        } finally {
+            setchatListLoading(false);
+        }
+    };
+    
+    useEffect(() => {
+
 
         fetchConversations();
 
@@ -148,13 +149,26 @@ export default function Message() {
     const filteredChatList = conversations?.map(conversation => ({
         id: conversation._id,
         title: conversation.buyerName,
-        subtitle: 'Message placeholder',
+        subtitle: conversation.lastMessage,
         //avatar:  ''+conversation.buyerProfilePicture,
         avatar: `http://localhost:5000/uploads/${conversation.buyerProfilePicture}`,
         alt: 'default-user.jpg',
-        date: new Date(),
+        date: new Date(conversation.lastMessageDate),
+        unread: conversation.unread
     })).filter(message => message.title.toLowerCase().includes(searchKeyword.toLowerCase()));
 
+    console.log('filteredChatList:',filteredChatList);
+    filteredChatList.forEach(message => {
+        const element = document.querySelector(`.rce-citem-body--bottom-title[data-id='${message.id}']`);
+        if (element) {
+            if (message.unread > 0) {
+                element.style.color = 'black';
+            } else {
+                element.style.color = '#979393';
+            }
+        }
+    });
+    filteredChatList.sort((a, b) => b.date - a.date);
     useEffect(() => {
         if (socket) {
             socket.on('getUser', users => {
@@ -172,6 +186,7 @@ export default function Message() {
                         date: new Date(msgdata.date),
                     };
                     setMessages(prevMessages => [...prevMessages, newMessage]);
+                    fetchConversations();
                 }
             });
             socket.on('sendItself', msgdata => {
@@ -186,6 +201,7 @@ export default function Message() {
                         date: new Date(msgdata.date),
                     };
                     setMessages(prevMessages => [...prevMessages, newMessage]);
+                    fetchConversations();
                 }
             });
         }
@@ -248,7 +264,6 @@ export default function Message() {
             toast.error('Failed to send message. Please try again later.');
         }
     };
-
     return (
         <>
             <div className="row msg-page-container">
@@ -285,15 +300,15 @@ export default function Message() {
                     {selectedChat ?
                         <>
                             <div className="row" style={{ borderBottom: "2px solid #ccc" }}>
-                                <div className="avatar col-1" 
-                                style={{ marginLeft: '20px', borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}
+                                <div className="avatar col-1"
+                                    style={{ marginLeft: '20px', borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}
                                 >
                                     {selectedChat.avatar ? (
                                         <img
                                             src={`${selectedChat.avatar}`}
                                             alt="Profile"
-                                            style={{ borderRadius: '50%', maxWidth: '100%',filter: 'none' }} 
-                                            //style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            style={{ borderRadius: '50%', maxWidth: '100%', filter: 'none' }}
+                                        //style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                         />
                                     ) : (
                                         <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', backgroundColor: '#ccc', borderRadius: '50%' }}>
