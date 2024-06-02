@@ -78,7 +78,7 @@ export default function Message() {
             setchatListLoading(false);
         }
     };
-    
+
     useEffect(() => {
 
 
@@ -86,6 +86,28 @@ export default function Message() {
 
     }, []);
 
+    async function resetUnreadCount(conversationId) {
+        try {
+          const response = await fetch(`http://localhost:5000/resetUnreadCount/${conversationId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ conversationId }),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to reset unread count');
+          }
+      
+          const data = await response.json();
+          return data; // You can handle the response data if needed
+        } catch (error) {
+          console.error('Error:', error.message);
+          throw error; // Rethrow the error for handling in the calling code
+        }
+      }
+      
     const onSelectChat = (chat) => {
         //console.log("chat:",chat);
         //console.log("selectedChat:",selectedChat);
@@ -93,6 +115,7 @@ export default function Message() {
             setMessageListLoading(true);
             setSelectedChat(chat);
             fetchMessages(chat.id);
+            resetUnreadCount(chat.id);
             const conversationId = chat.id;
             // console.log('conversationId: ',conversationId);
             // console.log('conversationIdcsdcmsdcds: ',conversations);
@@ -100,7 +123,7 @@ export default function Message() {
             //console.log('convo:',convo);
             if (convo) {
                 const receiverId = convo.members.find(member => member !== sellerId);
-                //const receiverId = convo.members[1]; because i have designed members array as 0 is teacherId and 1 is STudentId
+                //const receiverId = convo.members[1]; because i have designed members array as 0 is SellerId and 1 is BuyerId
                 //console.log('recieverIdnull :',recieverId);
                 //console.log('recieverId: ',receiverId);
                 setRecieverId(receiverId);
@@ -157,12 +180,21 @@ export default function Message() {
         unread: conversation.unread
     })).filter(message => message.title.toLowerCase().includes(searchKeyword.toLowerCase()));
 
-    console.log('filteredChatList:',filteredChatList);
+    //console.log('filteredChatList:',filteredChatList);
     filteredChatList.forEach(message => {
-        const element = document.querySelector(`.rce-citem-body--bottom-title[data-id='${message.id}']`);
+        const element = document.querySelector(`.rce-citem-body--bottom-title`);
+        const statusElement = document.querySelector(`.rce-citem-body--bottom-status`);
+
+        if (statusElement) {
+            statusElement.style.backgroundColor = 'red';
+            statusElement.style.borderRadius = '50%';
+            statusElement.style.marginBottom = 'auto';
+        }
         if (element) {
             if (message.unread > 0) {
                 element.style.color = 'black';
+                element.style.fontWeight = 'bolder';
+
             } else {
                 element.style.color = '#979393';
             }
@@ -176,6 +208,10 @@ export default function Message() {
             })
             socket.on('getMessage', msgdata => {
                 console.log(msgdata);
+                if(msgdata.conversationId===selectedChat){
+                    resetUnreadCount(selectedChat);
+                    
+               }
                 const { type } = msgdata;
                 if (type === 'text') {
 

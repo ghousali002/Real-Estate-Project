@@ -2,12 +2,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaRegEnvelope } from 'react-icons/fa';
-import ButtonIcon from './ButtonIcon';
+import ButtonIcon from '../../ui/ButtonIcon';
 import { ChatList } from "react-chat-elements";
 import { Spinner } from "react-bootstrap";
 import "react-chat-elements/dist/main.css";
 import { toast } from 'react-hot-toast';
-import { useSellerSocket } from '../services/sallerSocketContext';
+import { useBuyerSocket } from '../../services/buyerSocketContext';
 import { useNavigate} from 'react-router-dom';
 
 
@@ -20,7 +20,7 @@ const Badge = styled.span`
   font-size: 12px;
   position: absolute;
   top: 13px;
-  right: 85px;
+  right: 48px;
 `;
 
 const DropdownContent = styled.div`
@@ -89,16 +89,16 @@ const SeeAllLink = styled.a`
 //     { id: 5, sender: 'Bilal M @bilalmumtaz_', message: 'Me: Yes bruh', time: '2 months' },
 // ];
 
-export default function Notificationbox() {
+export default function BuyerNotificationBox() {
   const [conversations, setConversations] = useState([]);
-  const socket = useSellerSocket();
-  const sellerId = localStorage.getItem("userId");
+  const socket = useBuyerSocket();
+  const BuyerId = localStorage.getItem("buyerId");
   const [chatListLoading, setchatListLoading] = useState(true);
   const [notificationCount, setNotificationCount] = useState(true);
   
   const fetchConversations = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/SellerConversations/${sellerId}`);
+      const response = await fetch(`http://localhost:5000/BuyerConversations/${BuyerId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch conversations');
       }
@@ -212,7 +212,7 @@ export default function Notificationbox() {
 
   const navi = useNavigate();
   const handleChatClick = (conversationId) => {
-    navi(`/message/${conversationId}`);
+    navi(`/dashboardlinks/Message/${conversationId}`);
 };
   return (
     <div ref={dropdownRef}>
@@ -262,7 +262,7 @@ export default function Notificationbox() {
           )}
         </DropdownBody>
         <DropdownFooter>
-          <SeeAllLink href="http://localhost:3000/message">See All In Inbox</SeeAllLink>
+          <SeeAllLink href="http://localhost:3000/dashboardlinks/Message">See All In Inbox</SeeAllLink>
         </DropdownFooter>
       </DropdownContent>
     </div>

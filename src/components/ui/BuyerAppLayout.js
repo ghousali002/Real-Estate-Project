@@ -34,8 +34,8 @@ export default function DashboardLinks() {
             element={<PrivateRoute element={<Listings/>} path="/Listings" />}
           />
           <Route
-            path="/Message/"
-            element={<PrivateRoute element={<Message />} path="/Message" />}
+            path="/Message/*"
+            element={<PrivateRoute element={<Message />} path="/Message/*" />}
           />
         </Routes>
       </div>

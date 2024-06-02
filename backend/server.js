@@ -87,18 +87,18 @@ io.on("connection", (socket) => {
     if(reciever){
       console.log('reciever find in connected clients: ',reciever);
       io.to(reciever.socketId).emit('getMessage', msgdata);
+      io.to(reciever.socketId).emit('getNotify', msgdata);
     }
     io.to(socket.id).emit('sendItself', msgdata);
     const { conversationId, senderId, text,type ,date } = msgdata;
     const conversation = await Convo.findById(conversationId);
 
     if (conversation) {
-      const senderUnread = conversation.unread.find(unreadItem => unreadItem.senderId === senderId);
-    
-      if (senderUnread) {
-        senderUnread.count += 1;
+     
+      if (conversation.unread.length > 0 && conversation.unread[0].senderId === senderId) {
+        conversation.unread[0].count += 1;
       } else {
-        conversation.unread.push({ senderId, count: 1 });
+        conversation.unread[0] = { senderId, count: 1 };
       }
       conversation.lastMessage = text;
       conversation.lastMessageDate = date;

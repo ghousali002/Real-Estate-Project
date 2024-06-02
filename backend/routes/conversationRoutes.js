@@ -111,4 +111,18 @@ router.post('/createConversation', async (req, res) => {
   }
 });
 
+
+router.put('/resetUnreadCount/:conversationId', async (req, res) => {
+  try {
+    const { conversationId } = req.params;
+    const conversation = await Conversation.findById(conversationId);
+    conversation.unread[0].count = 0;
+    await conversation.save();
+
+    res.json({ success: true, message: 'Unread count reset successfully' });
+  } catch (error) {
+    console.error('Error to resetUnreadCount :', error.message);
+    res.status(500).json({ success: false, message: 'Failed to reset unread count' });
+  }
+});
 module.exports = router;

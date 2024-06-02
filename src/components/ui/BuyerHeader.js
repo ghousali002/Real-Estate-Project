@@ -1,16 +1,23 @@
 import React from "react";
-import { IoIosNotifications } from 'react-icons/io';
+import styled from "styled-components";
 import { VscSignOut } from 'react-icons/vsc';
 import { useState, useEffect } from 'react';
 import { useBuyerLogout } from "../useBuyerLogout";
 import { useAuth } from '../AuthContext';
 import toast from "react-hot-toast";
 import { Spinner } from "react-bootstrap";
-import {useBuyerUser} from '../section-components/BuyerDashboard/useBuyerUser';
+import { useBuyerUser } from '../section-components/BuyerDashboard/useBuyerUser';
+import BuyerNotificationBox from '../section-components/BuyerDashboard/BuyerNotificationBox';
 
+const StyledHeaderMenu = styled.ul`
+  display: flex;
+  gap: 0.4rem;
+  text-decoration: none;
+  list-style: none;
+`;
 
 const Header = () => {
-  const { data , isLoading, isError} = useBuyerUser();
+  const { data, isLoading, isError } = useBuyerUser();
   const { mutate: logoutMutate } = useBuyerLogout();
   const { logoutFrontend } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,9 +42,9 @@ const Header = () => {
     // Handle error state
     return <div>Error fetching user details</div>;
   }
-  
+
   let Name = data.user?.Name || 'Unknown User';
-  
+
   const handleLogout = async () => {
     try {
       logoutMutate();
@@ -62,11 +69,18 @@ const Header = () => {
         <h4 className="mx-3 my-3">Welcome, {Name ? Name : "No Name"}</h4>
       </div>
       <div className="right">
-        <IoIosNotifications style={{ fontSize: '2.5rem' }} />
-        <VscSignOut className='logout' style={{ fontSize: '2.5rem', marginLeft: '1rem' }} onClick={handleLogout} />
+        <StyledHeaderMenu>
+          <li>
+            <BuyerNotificationBox />
+          </li>
+          <li>
+            <VscSignOut className='logout' style={{ fontSize: '2.5rem', marginLeft: '1rem',marginTop: '5px' }} onClick={handleLogout} />
+          </li>
+        </StyledHeaderMenu>
+
       </div>
     </div>
   );
-}  
+}
 
 export default Header;
