@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import BuyerHeader from '..//../ui/BuyerHeader';
+import StarRatingComponent from 'react-star-rating-component';
+import BuyerHeader from '../../ui/BuyerHeader';
+import Modal from 'react-modal';
 
 const BuyerBookings = () => {
   const [bookedProperties, setBookedProperties] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [review, setReview] = useState({ text: '', rating: 0 });
+  const [selectedProperty, setSelectedProperty] = useState(null);
+
+  const starStyle = {
+    fontSize: '40px', // Adjust the size as needed
+    margin: '5px',   // Adjust the spacing as needed
+  };
 
   useEffect(() => {
     const fetchBookedProperties = async () => {
@@ -72,27 +82,62 @@ const BuyerBookings = () => {
   const renderPropertyLabel = (type) => {
     return type === 'Sale' ? 'For Sale' : 'For Rent';
   };
+
   let publicUrl = process.env.PUBLIC_URL + "/";
 
   const handleImageSrc = (imagePath) => {
-    // Check if imagePath is undefined or null
     if (!imagePath) {
-        // Return a default image or handle the undefined case as needed
-        console.log("Image path is undefined or null.");
-        return '/path/to/default/image.png'; // Adjust this path to your default image
+      console.log("Image path is undefined or null.");
+      return '/path/to/default/image.png';
     }
- 
-    // Check if imagePath starts with "http" or "https"
     if (imagePath.startsWith('http')) {
-        console.log(imagePath);
-        return imagePath; // Return the URL as-is
+      console.log(imagePath);
+      return imagePath;
     } else {
-        console.log(imagePath);
-        // Assuming your server is set up to serve images from the 'uploads' directory
-        const baseUrl = "http://localhost:5000/"; // Adjust this URL to match your server's configuration
-        return baseUrl + imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes if necessary
+      console.log(imagePath);
+      const baseUrl = "http://localhost:5000/";
+      return baseUrl + imagePath.replace(/\\/g, '/');
     }
- };  
+  };
+
+  const openReviewModal = (property) => {
+    setSelectedProperty(property);
+    setIsModalOpen(true);
+  };
+
+  const closeReviewModal = () => {
+    setIsModalOpen(false);
+    setReview({ text: '', rating: 0 });
+    setSelectedProperty(null);
+  };
+
+  const handleReviewSubmit = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        throw new Error('Token not found');
+      }
+
+      const buyerId = localStorage.getItem('buyerId'); // Assuming the buyer ID is stored in local storage
+      console.log('selectedProperty : ',selectedProperty)
+      await axios.post(`http://localhost:5000/review`, {
+        propertyId: selectedProperty._id,
+        review: review.text,
+        rating: review.rating,
+        buyerId: buyerId,
+        sellerId: selectedProperty.userId 
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      closeReviewModal();
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
+  };
 
   return (
     <div>
@@ -117,10 +162,10 @@ const BuyerBookings = () => {
                         <div className="media-body">
                           <h6>{property.Owner}</h6>
                           <p>
-                          <img
-                        src={publicUrl + "assets/img/icon/location-alt.png"}
-                        alt="img"
-                      />                            {property.Address}
+                            <img
+                              src={publicUrl + "assets/img/icon/location-alt.png"}
+                              alt="img"
+                            />{property.Address}
                           </p>
                         </div>
                         <a className="fav-btn float-right" href="#">
@@ -133,10 +178,10 @@ const BuyerBookings = () => {
                     <h4>{property.PropertyTitle}</h4>
                     <ul className="meta-inner">
                       <li>
-                      <img
-                    src={publicUrl + "assets/img/icon/location2.png"}
-                    alt="img"
-                  />                        {property.City}
+                        <img
+                          src={publicUrl + "assets/img/icon/location2.png"}
+                          alt="img"
+                        />{property.City}
                       </li>
                     </ul>
                     <p>{property.PropertyTagline}</p>
@@ -152,6 +197,9 @@ const BuyerBookings = () => {
                       <li style={{ background: "#53BEEB", color: "black", padding: "0 10px", fontWeight: "bold", width: "160px", borderRadius: "4px", margin: "0px", cursor: "pointer" }}>
                         Booked ({renderPropertyLabel(property.type)})
                       </li>
+                      <li style={{ border: '2px solid #ccc', marginTop: '10px', marginLeft: 'auto', color: "black", padding: "0 10px", fontWeight: "bold", width: "160px", borderRadius: "4px", margin: "0px", cursor: "pointer" }} onClick={() => openReviewModal(property)}>
+                        Give Review
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -160,6 +208,52 @@ const BuyerBookings = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeReviewModal}
+        contentLabel="Review Modal"
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            width: '500px',
+            borderRadius:"1em"
+          }
+        }}
+      >
+        <h2>Give Review</h2>
+        <div>
+          <textarea
+            value={review.text}
+            onChange={(e) => setReview({ ...review, text: e.target.value })}
+            rows="4"
+            cols="50"
+            placeholder="Write your review here..."
+          />
+        </div>
+        <div>
+          <StarRatingComponent
+            name="rating"
+            starCount={5}
+            value={review.rating}
+            onStarClick={(nextValue) => setReview({ ...review, rating: nextValue })}
+            renderStarIcon={(index, value) => {
+              return (
+                <span style={starStyle}>
+                  {index <= value ? '\u2605' : '\u2606'} {/* Filled star (★) and empty star (☆) */}
+                </span>
+              );
+            }}
+          />
+        </div>
+        <button className='btn' onClick={closeReviewModal} style={{margin:"0 10px"}}>Cancel</button>
+        <button className='btn' onClick={handleReviewSubmit}>Submit</button>
+      </Modal>
     </div>
   );
 };

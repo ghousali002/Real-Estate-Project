@@ -138,3 +138,27 @@ app.use("/SubmittedPropertyRequests", SubmittedPropertyRequestsRouter);
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
+
+const Review = require('./models/Review');
+app.post('/review', async (req, res) => {
+  try {
+    const { propertyId, rating, review, buyerId, sellerId } = req.body;
+
+    // Create a new review instance
+    const newReview = new Review({
+      propertyId,
+      rating,
+      text:review,
+      buyerId,
+      sellerId
+    });
+    console.log('newReview:',newReview);
+    // Save the review to the database
+    const savedReview = await newReview.save();
+
+    res.status(201).json(savedReview);
+  } catch (error) {
+    console.error('Error storing review:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
